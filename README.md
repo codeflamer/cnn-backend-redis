@@ -41,9 +41,21 @@ Link to backend - https://github.com/codeflamer/cnn-visualizer-backend
 3. Configure environment variables:
 
    ```bash
-   cp .env.example .env
-   # Edit .env with your configuration
+   # Copy the example environment file
+   cp env.example .env
+
+   # Edit the .env file with your configuration:
+   # - Set your Redis connection details
+   # - Add your API credentials
+   # - Configure server settings
+   # - Set up CORS origins
+   # - Adjust cache and logging settings
    ```
+
+   Required environment variables:
+
+   - `REDIS_URL`: Redis server port (default: 6379)
+   - `SPECIAL_URL`: Your neural network API endpoint
 
 4. Set up Redis using Docker:
 
