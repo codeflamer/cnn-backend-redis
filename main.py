@@ -13,7 +13,7 @@ r = None
 
 # Connect to Redis
 redis_url = os.getenv("REDIS_URL", "redis://localhost:6379")
-r = redis.Redis.from_url(redis_url, decode_responses=True)
+r = redis.Redis.from_url(redis_url)
 
 # Configure CORS
 app.add_middleware(
@@ -38,7 +38,7 @@ def get_cached_data():
     return {"data": response, "source": "original_api"}
 
 
-# if __name__ == "__main__":
-#     import uvicorn
-#     r = redis.Redis(host="localhost", port=6379)
-#     uvicorn.run(app, host="0.0.0.0", port=8000) 
+if __name__ == "__main__":
+    import uvicorn
+    # r = redis.Redis(host="localhost", port=6379)
+    uvicorn.run(app, host="0.0.0.0", port=8000) 
