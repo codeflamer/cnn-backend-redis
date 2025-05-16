@@ -12,9 +12,10 @@ app = FastAPI()
 r = None
 
 # Connect to Redis
+backend_url = os.getenv("SPECIAL_URL","https://cnn-viz-production.up.railway.app/all_layers")
 redis_url = os.getenv("REDIS_URL", "redis://localhost:6379")
 r = redis.Redis.from_url(redis_url)
-backend_url = os.getenv("BACKEND_URL")
+
 
 # Configure CORS
 app.add_middleware(
@@ -28,7 +29,7 @@ app.add_middleware(
 
 @app.get("/cached_api")
 def get_cached_data():
-    cache_key = "cnn-viz-2"
+    cache_key = "cnn-viz"
     cached_data = r.get(cache_key)
     if cached_data:
         dict_data = ast.literal_eval(cached_data.decode())
@@ -41,5 +42,4 @@ def get_cached_data():
 
 if __name__ == "__main__":
     import uvicorn
-    # r = redis.Redis(host="localhost", port=6379)
     uvicorn.run(app, host="0.0.0.0", port=8000) 
