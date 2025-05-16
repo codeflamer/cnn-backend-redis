@@ -14,6 +14,7 @@ r = None
 # Connect to Redis
 redis_url = os.getenv("REDIS_URL", "redis://localhost:6379")
 r = redis.Redis.from_url(redis_url)
+backend_url = os.getenv("BACKEND_URL")
 
 # Configure CORS
 app.add_middleware(
@@ -32,9 +33,9 @@ def get_cached_data():
     if cached_data:
         dict_data = ast.literal_eval(cached_data.decode())
         return json.dumps(dict_data)
-    response = requests.get("https://cnn-viz-production.up.railway.app/all_layers").json()
+    response = requests.get(backend_url).json()
     # response = "cached_data"
-    r.setex(cache_key, 360000, f'{response}')
+    r.set(cache_key, f'{response}')
     return {"data": response, "source": "original_api"}
 
 
